@@ -485,10 +485,11 @@ app.all('/api/open-folder', (req, res) => {
     res.json({ status: 'success', folder: targetDir });
 });
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`===================================================`);
-    console.log(`🚀 BOT LAPORAN KASIR AKTIF DI PORT: ${PORT}`);
-    console.log(`👉 http://localhost:${PORT}`);
+    console.log(`🚀 BOT LAPORAN KASIR AKTIF (Port Bot: ${PORT})`);
+    console.log(`👉 Buka di PC Host : http://localhost:8080/lap-kasir`);
+    console.log(`👉 Buka dari PC Lain: http://172.26.22.6:8080/lap-kasir`);
     console.log(`===================================================`);
     console.log(`Status: Standby menunggu klik dari browser...`);
 });

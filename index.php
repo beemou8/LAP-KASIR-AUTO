@@ -154,10 +154,10 @@
                         <span id="pesanHasil" class="text-[#1d1d1f] font-medium flex items-center gap-1.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 11 File tersimpan
                         </span>
-                        <div class="flex items-center gap-2.5 text-[#0071e3] font-medium">
-                            <button onclick="bukaFolder()" class="hover:underline">Buka Folder</button>
+                        <div class="flex items-center gap-2.5 font-medium">
+                            <a id="linkZip" href="#" class="text-[#0071e3] hover:underline font-semibold">Download ZIP</a>
                             <span class="text-[#d2d2d7]">•</span>
-                            <a id="linkZip" href="#" class="hover:underline">ZIP</a>
+                            <button onclick="bukaFolder()" class="text-[#86868b] hover:text-[#1d1d1f] hover:underline" title="Buka folder laporan di PC Host">Buka di Host</button>
                         </div>
                     </div>
                 </div>
@@ -180,7 +180,8 @@
     </div>
 
     <script>
-        const BOT_URL = "http://localhost:6767";
+        // Universal API Bridge melalui Apache port 80 (bisa diakses dari PC Host & semua PC di LAN)
+        const API_URL = "api.php";
 
         // Koleksi Kata-kata Motivasi
         const quotes = [
@@ -250,7 +251,7 @@
 
             // Polling progres halus
             const poller = setInterval(() => {
-                fetch(`${BOT_URL}/api/status`)
+                fetch(`${API_URL}?action=status`)
                     .then(r => r.json())
                     .then(st => {
                         if (st.running && st.step > 0) {
@@ -265,7 +266,7 @@
             }, 800);
 
             try {
-                const res = await fetch(`${BOT_URL}/api/tarik`, {
+                const res = await fetch(`${API_URL}?action=tarik`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ tanggal: tgl, username: u, password: p, koneksi: kon })
@@ -294,7 +295,7 @@
 
         function bukaFolder() {
             const tgl = document.getElementById('tgl').value;
-            fetch(`${BOT_URL}/api/open-folder?tanggal=${tgl}`).catch(() => {
+            fetch(`${API_URL}?action=open-folder&tanggal=${tgl}`).catch(() => {
                 fetch(`open_folder.php?tanggal=${tgl}`);
             });
         }
